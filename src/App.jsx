@@ -17,10 +17,16 @@ function App () {
         setCount(count + 1)
     }
 
+    function MyComponent() {
+        console.info(this); // undefined
+        return <>this</>
+    }
+
     return (
         <div>
             <div>{ count }</div>
             <button onClick={updateCount}>count+1</button>
+            <MyComponent />
         </div>
     )
 }
