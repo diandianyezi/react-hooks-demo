@@ -22,20 +22,35 @@ class App extends Component {
         root.unmount();
     }
     componentDidMount() {
-        console.info('componentDidMount')
+        console.info('componentDidMount');
+    }
+    
+    // 更新之前获取快照
+    getSnapshotBeforeUpdate() {
+        console.info('getSnapshotBeforeUpdate');
+        return 'getSnapshotBeforeUpdate的value';
+    }
+    /**
+     * 返回一个对象的话，状态就改不了了哎
+     * @returns 
+     */
+    static getDerivedStateFromProps(props) {
+        console.info('getDerivedStateFromProps', props);
+        return null;
     }
 
-    componentDidUpdate() {
-        console.info('componentDidUpdate')
+    componentDidUpdate(preProps, preState, snapshotValue) {
+        console.info('componentDidUpdate', preProps, preState, snapshotValue);
     }
 
-    componentWillUnmount() {
-        console.info('componentWillUnmount')
-    }
-
+    // 控制组件更新的阀门
     shouldComponentUpdate() {
         console.info('shouldComponentUpdate');
         return true
+    }
+
+    componentWillUnmount() {
+        console.info('componentWillUnmount');
     }
 
     force = () => {
@@ -43,7 +58,7 @@ class App extends Component {
     }
     
     render() {
-        console.info('render')
+        console.info('render');
         const { count } = this.state;
         return (
             <div>
@@ -56,49 +71,52 @@ class App extends Component {
     }
 }
 
-class A extends Component {
-    state = {
-        carName: '奔驰'
-    }
+// class A extends Component {
+//     state = {
+//         carName: '奔驰'
+//     }
 
-    changeCar = () => {
-        this.setState({
-            carName: '宝马'
-        })
-    }
-    render() {
-        return (
-            <div>
-                <div>我是A组件</div>
-                <button onClick={this.changeCar}>换车</button>
-                <B carName={this.state.carName}>
+//     changeCar = () => {
+//         this.setState({
+//             carName: '宝马'
+//         })
+//     }
+//     render() {
+//         return (
+//             <div>
+//                 <div>我是A组件</div>
+//                 <button onClick={this.changeCar}>换车</button>
+//                 <B carName={this.state.carName}>
                     
-                </B>
-            </div>
-        )
-    }
-}
+//                 </B>
+//             </div>
+//         )
+//     }
+// }
 
-class B extends Component {
-    componentDidMount() {
-        console.info('子组件----componentDidMount')
-    }
-    getSnapshotBeforeUpdate(props) {
-        // 首次渲染不会执行？
-        console.info('子组件----getSnapshotBeforeUpdate', props)
-    }
-    shouldComponentUpdate() {
-        console.info('子组件----shouldComponentUpdate');
-        return true
-    }
-    render() {
-        console.info('组组件----render')
-        return (
-            <div>
-                我是B组件
-            {this.props.carName}
-            </div>
-        )
-    }
-}
-root.render(<A />)
+// class B extends Component {
+//     componentDidMount() {
+//         console.info('子组件----componentDidMount')
+//     }
+//     getSnapshotBeforeUpdate(props) {
+//         // 首次渲染不会执行？
+//         console.info('子组件----getSnapshotBeforeUpdate', props)
+//     }
+//     shouldComponentUpdate() {
+//         console.info('子组件----shouldComponentUpdate');
+//         return true
+//     }
+//     componentDidUpdate() {
+//         console.info('componentDidUpdate');
+//     }
+//     render() {
+//         console.info('组组件----render')
+//         return (
+//             <div>
+//                 我是B组件
+//             {this.props.carName}
+//             </div>
+//         )
+//     }
+// }
+root.render(<App count={199} />)
